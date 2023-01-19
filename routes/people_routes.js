@@ -30,4 +30,22 @@ router.post('/people', (req, res, next) => {
         .catch(next)
 })
 
+router.patch('/people/:id', (req, res, next) => {
+    Person.findById(req.params.id)
+        .then(person => {
+            return person.updateOne(req.body.person)
+        })
+        .then(() => res.sendStatus(204))
+        .catch(next)
+})
+
+router.delete('/people/:id', (req, res, next) => {
+    Person.findById(req.params.id)
+        .then(person => {
+            return person.deleteOne()
+        })
+        .then(() => res.sendStatus(204))
+        .catch(next)
+})
+
 module.exports = router
