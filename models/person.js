@@ -16,7 +16,7 @@ const personSchema = new Schema({
     },
     isEmployed: {
         type: Boolean,
-        default: false,
+        required: true
     }
 })
 
