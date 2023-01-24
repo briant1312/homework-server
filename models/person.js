@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
+const petSchema = require('../models/pet')
+
 const personSchema = new Schema({
     firstName: {
         type: String,
@@ -17,7 +19,8 @@ const personSchema = new Schema({
     isEmployed: {
         type: Boolean,
         required: true
-    }
+    },
+    pets: [petSchema]
 })
 
 const Person = mongoose.model('Person', personSchema)

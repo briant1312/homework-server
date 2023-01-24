@@ -1,9 +1,11 @@
 const express = require('express')
 const router = express.Router()
+const { requireToken } = require('../config/auth')
 
 const Person = require('../models/person')
 
-router.get('/people', (req, res, next) => {
+// INDEX
+router.get('/people', requireToken, (req, res, next) => {
     Person.find()
         .then(people => {
             return people.map(people => people)
@@ -14,7 +16,8 @@ router.get('/people', (req, res, next) => {
         .catch(next)
 })
 
-router.get('/people/:id', (req, res, next) => {
+// SHOW
+router.get('/people/:id', requireToken, (req, res, next) => {
     Person.findById(req.params.id)
         .then(person => {
             res.json({ person: person })
@@ -22,7 +25,8 @@ router.get('/people/:id', (req, res, next) => {
         .catch(next)
 })
 
-router.post('/people', (req, res, next) => {
+// CREATE
+router.post('/people', requireToken, (req, res, next) => {
     Person.create(req.body.person)
         .then(person => {
             res.status(201).json({ person: person })
@@ -30,7 +34,8 @@ router.post('/people', (req, res, next) => {
         .catch(next)
 })
 
-router.patch('/people/:id', (req, res, next) => {
+// UPDATE
+router.patch('/people/:id', requireToken, (req, res, next) => {
     Person.findById(req.params.id)
         .then(person => {
             return person.updateOne(req.body.person)
@@ -39,7 +44,8 @@ router.patch('/people/:id', (req, res, next) => {
         .catch(next)
 })
 
-router.delete('/people/:id', (req, res, next) => {
+// DELETE
+router.delete('/people/:id', requireToken, (req, res, next) => {
     Person.findById(req.params.id)
         .then(person => {
             return person.deleteOne()
